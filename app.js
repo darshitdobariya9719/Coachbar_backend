@@ -12,7 +12,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://coachbar-frontend.vercel.app", 
-  "http://localhost:3000" // for local development
+  "http://localhost:5173" // for local development
 ];
 
 app.use(cors({
