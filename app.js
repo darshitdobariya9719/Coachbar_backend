@@ -10,14 +10,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL, // Allow only your frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true // Allow cookies or authorization headers
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL, // Allow only your frontend
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true // Allow cookies or authorization headers
+//   })
+// );
+const allowedOrigins = [
+  "https://coachbar-frontend.vercel.app", 
+  "http://localhost:3000" // for local development
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
 app.use(json());
 
 connectDB();
