@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, loginUser, getUsers, uploadProfilePicture, updateUser, getCurrentUser } from "../controllers/userController.js";
+import { registerUser, loginUser, getUsers, uploadProfilePicture, updateUser, getCurrentUser, updatePassword } from "../controllers/userController.js";
 import { authAdminMiddleware, authMiddleware } from "../middlewares/authMiddleware.js";
 import { check } from "express-validator";
 import { compressImage, upload } from "../middlewares/uploadMiddleware.js";
@@ -43,6 +43,18 @@ router.put(
     check("name", "Name is required").notEmpty(),
   ],
   updateUser
+);
+
+// Update password
+router.put(
+  "/update-password",
+  authMiddleware,
+  [
+    check("oldPassword", "Old Password is required").notEmpty(),
+    check("newPassword", "New Password is required").notEmpty(),
+    check("newpassword", "New Password must be at least 6 characters long").isLength({ min: 6 }),
+  ],
+  updatePassword
 );
 
 // Get Current User

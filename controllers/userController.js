@@ -126,4 +126,22 @@ export async function getCurrentUser(req, res) {
   }
 }
 
+export async function updatePassword(req, res) {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await compare(oldPassword, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid old password" });
+
+    user.password = await hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 
