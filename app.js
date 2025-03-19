@@ -16,18 +16,21 @@ const app = express();
 //     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
 //   })
 // );
-app.use(
-  cors({
-    origin: "*", // Allows all origins (change this to specific origins if needed)
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
-  })
-);
+// app.use(
+//   cors({
+//     origin: "*", // Allows all origins (change this to specific origins if needed)
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+//     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+//     credentials: true // Allow credentials (cookies, authorization headers, etc.)
+//   })
+// );
+
+app.use(cors());
 
 app.use(json());
 
 connectDB();
+
 app.use("/api/images", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
