@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import path from "path";
-
+import dotenv from "dotenv";
+dotenv.config();
 // Get the correct __dirname equivalent in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
