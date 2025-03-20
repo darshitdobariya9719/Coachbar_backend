@@ -63,16 +63,10 @@ export async function getUsers(req, res) {
   try {
     let { page = 1, limit = 5, sort = 'name', order = 'asc' } = req.query;
 
-    if(req.query.limit&&req.query.page){
-      page = parseInt(page);
-      limit = limit ? parseInt(limit) : null;
-    }
-
-    
     order = order === 'desc' ? -1 : 1;
     const query = User.find().select("-password").sort({ [sort]: order });
 
-    if (limit) {
+    if (req.query.limit) {
       query.skip((page - 1) * limit).limit(limit);
     }
 
