@@ -161,7 +161,7 @@ export async function deleteProduct(req, res) {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    if (product.logo) fs.unlinkSync(`${uploadDir}/${product.logo}`); // Remove image
+    if (product.logo && fs.existsSync(`${uploadDir}/${product.logo}`)) fs.unlinkSync(`${uploadDir}/${product.logo}`); // Remove image
 
     await Product.deleteOne({ _id: req.params.id });
 

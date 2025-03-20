@@ -84,7 +84,7 @@ export async function uploadProfilePicture(req, res) {
     if (!user) return res.status(404).json({ message: "User not found" });
     console.log('user: ', user);
 
-    if (user.profile) fs.unlinkSync(`${uploadDir}/${user.profile}`); // Remove image
+    if (user.profile && fs.existsSync(`${uploadDir}/${user.profile}`)) fs.unlinkSync(`${uploadDir}/${user.profile}`); // Remove image
 
     user.profile = req.file.filename;
     console.log('req.file.filename: ', req.file.filename);
