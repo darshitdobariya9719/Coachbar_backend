@@ -126,12 +126,18 @@ export async function updateProduct(req, res) {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
-
+    if (req.body.sku) {
+      const productExists = await Product.findOne({ sku: req.body.sku });
+      if (productExists && productExists._id.toString() !== product._id.toString()) {
+        if (req.file) fs.unlinkSync(req.file.path); // Remove uploaded image
+        return res.status(400).json({ message: "SKU already exists" });
+      }
+    }
     if (req.file) {
       const imagePath = path.join(uploadDir, product.logo);
-if (product.logo && fs.existsSync(imagePath)) {
-    fs.unlinkSync(imagePath); // Remove existing image
-} // Remove existing image
+      if (product.logo && fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath); // Remove existing image
+      } // Remove existing image
       product.logo = req.file.filename;
     }
     product.name = req.body.name || product.name;
