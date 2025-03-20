@@ -128,7 +128,10 @@ export async function updateProduct(req, res) {
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     if (req.file) {
-      if (product.logo) fs.unlinkSync(`${uploadDir}/${product.logo}`); // Remove existing image
+      const imagePath = path.join(uploadDir, product.logo);
+if (product.logo && fs.existsSync(imagePath)) {
+    fs.unlinkSync(imagePath); // Remove existing image
+} // Remove existing image
       product.logo = req.file.filename;
     }
     product.name = req.body.name || product.name;
